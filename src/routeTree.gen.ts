@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as CreateIndexRouteImport } from './routes/create.index'
+import { Route as CreateCaptureRouteImport } from './routes/create.capture'
+import { Route as CreateImportRouteImport } from './routes/create.import'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,28 +30,50 @@ const CreateIndexRoute = CreateIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CreateRoute,
 } as any)
+const CreateCaptureRoute = CreateCaptureRouteImport.update({
+  id: '/capture',
+  path: '/capture',
+  getParentRoute: () => CreateRoute,
+} as any)
+const CreateImportRoute = CreateImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => CreateRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRouteWithChildren
+  '/create/capture': typeof CreateCaptureRoute
+  '/create/import': typeof CreateImportRoute
   '/create/': typeof CreateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/create/capture': typeof CreateCaptureRoute
+  '/create/import': typeof CreateImportRoute
   '/create': typeof CreateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/create': typeof CreateRouteWithChildren
+  '/create/capture': typeof CreateCaptureRoute
+  '/create/import': typeof CreateImportRoute
   '/create/': typeof CreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/create/'
+  fullPaths: '/' | '/create' | '/create/capture' | '/create/import' | '/create/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create'
-  id: '__root__' | '/' | '/create' | '/create/'
+  to: '/' | '/create/capture' | '/create/import' | '/create'
+  id:
+    | '__root__'
+    | '/'
+    | '/create'
+    | '/create/capture'
+    | '/create/import'
+    | '/create/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,14 +104,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreateIndexRouteImport
       parentRoute: typeof CreateRoute
     }
+    '/create/capture': {
+      id: '/create/capture'
+      path: '/capture'
+      fullPath: '/create/capture'
+      preLoaderRoute: typeof CreateCaptureRouteImport
+      parentRoute: typeof CreateRoute
+    }
+    '/create/import': {
+      id: '/create/import'
+      path: '/import'
+      fullPath: '/create/import'
+      preLoaderRoute: typeof CreateImportRouteImport
+      parentRoute: typeof CreateRoute
+    }
   }
 }
 
 interface CreateRouteChildren {
+  CreateCaptureRoute: typeof CreateCaptureRoute
+  CreateImportRoute: typeof CreateImportRoute
   CreateIndexRoute: typeof CreateIndexRoute
 }
 
 const CreateRouteChildren: CreateRouteChildren = {
+  CreateCaptureRoute: CreateCaptureRoute,
+  CreateImportRoute: CreateImportRoute,
   CreateIndexRoute: CreateIndexRoute,
 }
 
