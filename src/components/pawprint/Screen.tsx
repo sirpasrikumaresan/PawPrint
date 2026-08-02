@@ -5,7 +5,7 @@ import { hydrateRegistry } from "@/lib/pawprint/store";
 import { cn } from "@/lib/utils";
 
 interface ScreenProps {
-  children: ReactNode;
+  children?: ReactNode;
   title?: string;
   back?: string;
   action?: ReactNode;

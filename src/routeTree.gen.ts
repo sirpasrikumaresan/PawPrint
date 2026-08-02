@@ -13,7 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as CreateIndexRouteImport } from './routes/create.index'
 import { Route as CreateCaptureRouteImport } from './routes/create.capture'
+import { Route as CreateDetailsRouteImport } from './routes/create.details'
 import { Route as CreateImportRouteImport } from './routes/create.import'
+import { Route as CreateProcessingRouteImport } from './routes/create.processing'
+import { Route as CreateSuccessRouteImport } from './routes/create.success'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -35,9 +38,24 @@ const CreateCaptureRoute = CreateCaptureRouteImport.update({
   path: '/capture',
   getParentRoute: () => CreateRoute,
 } as any)
+const CreateDetailsRoute = CreateDetailsRouteImport.update({
+  id: '/details',
+  path: '/details',
+  getParentRoute: () => CreateRoute,
+} as any)
 const CreateImportRoute = CreateImportRouteImport.update({
   id: '/import',
   path: '/import',
+  getParentRoute: () => CreateRoute,
+} as any)
+const CreateProcessingRoute = CreateProcessingRouteImport.update({
+  id: '/processing',
+  path: '/processing',
+  getParentRoute: () => CreateRoute,
+} as any)
+const CreateSuccessRoute = CreateSuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
   getParentRoute: () => CreateRoute,
 } as any)
 
@@ -45,13 +63,19 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRouteWithChildren
   '/create/capture': typeof CreateCaptureRoute
+  '/create/details': typeof CreateDetailsRoute
   '/create/import': typeof CreateImportRoute
+  '/create/processing': typeof CreateProcessingRoute
+  '/create/success': typeof CreateSuccessRoute
   '/create/': typeof CreateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create/capture': typeof CreateCaptureRoute
+  '/create/details': typeof CreateDetailsRoute
   '/create/import': typeof CreateImportRoute
+  '/create/processing': typeof CreateProcessingRoute
+  '/create/success': typeof CreateSuccessRoute
   '/create': typeof CreateIndexRoute
 }
 export interface FileRoutesById {
@@ -59,20 +83,41 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/create': typeof CreateRouteWithChildren
   '/create/capture': typeof CreateCaptureRoute
+  '/create/details': typeof CreateDetailsRoute
   '/create/import': typeof CreateImportRoute
+  '/create/processing': typeof CreateProcessingRoute
+  '/create/success': typeof CreateSuccessRoute
   '/create/': typeof CreateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create' | '/create/capture' | '/create/import' | '/create/'
+  fullPaths:
+    | '/'
+    | '/create'
+    | '/create/capture'
+    | '/create/details'
+    | '/create/import'
+    | '/create/processing'
+    | '/create/success'
+    | '/create/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create/capture' | '/create/import' | '/create'
+  to:
+    | '/'
+    | '/create/capture'
+    | '/create/details'
+    | '/create/import'
+    | '/create/processing'
+    | '/create/success'
+    | '/create'
   id:
     | '__root__'
     | '/'
     | '/create'
     | '/create/capture'
+    | '/create/details'
     | '/create/import'
+    | '/create/processing'
+    | '/create/success'
     | '/create/'
   fileRoutesById: FileRoutesById
 }
@@ -111,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreateCaptureRouteImport
       parentRoute: typeof CreateRoute
     }
+    '/create/details': {
+      id: '/create/details'
+      path: '/details'
+      fullPath: '/create/details'
+      preLoaderRoute: typeof CreateDetailsRouteImport
+      parentRoute: typeof CreateRoute
+    }
     '/create/import': {
       id: '/create/import'
       path: '/import'
@@ -118,18 +170,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreateImportRouteImport
       parentRoute: typeof CreateRoute
     }
+    '/create/processing': {
+      id: '/create/processing'
+      path: '/processing'
+      fullPath: '/create/processing'
+      preLoaderRoute: typeof CreateProcessingRouteImport
+      parentRoute: typeof CreateRoute
+    }
+    '/create/success': {
+      id: '/create/success'
+      path: '/success'
+      fullPath: '/create/success'
+      preLoaderRoute: typeof CreateSuccessRouteImport
+      parentRoute: typeof CreateRoute
+    }
   }
 }
 
 interface CreateRouteChildren {
   CreateCaptureRoute: typeof CreateCaptureRoute
+  CreateDetailsRoute: typeof CreateDetailsRoute
   CreateImportRoute: typeof CreateImportRoute
+  CreateProcessingRoute: typeof CreateProcessingRoute
+  CreateSuccessRoute: typeof CreateSuccessRoute
   CreateIndexRoute: typeof CreateIndexRoute
 }
 
 const CreateRouteChildren: CreateRouteChildren = {
   CreateCaptureRoute: CreateCaptureRoute,
+  CreateDetailsRoute: CreateDetailsRoute,
   CreateImportRoute: CreateImportRoute,
+  CreateProcessingRoute: CreateProcessingRoute,
+  CreateSuccessRoute: CreateSuccessRoute,
   CreateIndexRoute: CreateIndexRoute,
 }
 
