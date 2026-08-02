@@ -21,7 +21,7 @@ function IdentifyImport() {
   const passports = usePassports();
   const { slots, handleFile } = useUploadSlots(STAGES);
   const accepted = STAGES.filter((s) => slots[s.id]?.status === "accepted");
-  const muzzleReady = slots.muzzle?.status === "accepted";
+  const muzzleReady = slots["muzzle"]?.status === "accepted";
   const extras = accepted.length - 1;
 
   return (

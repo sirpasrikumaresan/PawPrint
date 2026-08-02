@@ -11,12 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
+import { Route as IdentifyRouteImport } from './routes/identify'
 import { Route as CreateIndexRouteImport } from './routes/create.index'
 import { Route as CreateCaptureRouteImport } from './routes/create.capture'
 import { Route as CreateDetailsRouteImport } from './routes/create.details'
 import { Route as CreateImportRouteImport } from './routes/create.import'
 import { Route as CreateProcessingRouteImport } from './routes/create.processing'
 import { Route as CreateSuccessRouteImport } from './routes/create.success'
+import { Route as IdentifyIndexRouteImport } from './routes/identify.index'
+import { Route as IdentifyImportRouteImport } from './routes/identify.import'
+import { Route as IdentifyScanRouteImport } from './routes/identify.scan'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -26,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const CreateRoute = CreateRouteImport.update({
   id: '/create',
   path: '/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdentifyRoute = IdentifyRouteImport.update({
+  id: '/identify',
+  path: '/identify',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreateIndexRoute = CreateIndexRouteImport.update({
@@ -58,16 +67,35 @@ const CreateSuccessRoute = CreateSuccessRouteImport.update({
   path: '/success',
   getParentRoute: () => CreateRoute,
 } as any)
+const IdentifyIndexRoute = IdentifyIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => IdentifyRoute,
+} as any)
+const IdentifyImportRoute = IdentifyImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => IdentifyRoute,
+} as any)
+const IdentifyScanRoute = IdentifyScanRouteImport.update({
+  id: '/scan',
+  path: '/scan',
+  getParentRoute: () => IdentifyRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRouteWithChildren
+  '/identify': typeof IdentifyRouteWithChildren
   '/create/capture': typeof CreateCaptureRoute
   '/create/details': typeof CreateDetailsRoute
   '/create/import': typeof CreateImportRoute
   '/create/processing': typeof CreateProcessingRoute
   '/create/success': typeof CreateSuccessRoute
+  '/identify/import': typeof IdentifyImportRoute
+  '/identify/scan': typeof IdentifyScanRoute
   '/create/': typeof CreateIndexRoute
+  '/identify/': typeof IdentifyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,30 +104,41 @@ export interface FileRoutesByTo {
   '/create/import': typeof CreateImportRoute
   '/create/processing': typeof CreateProcessingRoute
   '/create/success': typeof CreateSuccessRoute
+  '/identify/import': typeof IdentifyImportRoute
+  '/identify/scan': typeof IdentifyScanRoute
   '/create': typeof CreateIndexRoute
+  '/identify': typeof IdentifyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/create': typeof CreateRouteWithChildren
+  '/identify': typeof IdentifyRouteWithChildren
   '/create/capture': typeof CreateCaptureRoute
   '/create/details': typeof CreateDetailsRoute
   '/create/import': typeof CreateImportRoute
   '/create/processing': typeof CreateProcessingRoute
   '/create/success': typeof CreateSuccessRoute
+  '/identify/import': typeof IdentifyImportRoute
+  '/identify/scan': typeof IdentifyScanRoute
   '/create/': typeof CreateIndexRoute
+  '/identify/': typeof IdentifyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/create'
+    | '/identify'
     | '/create/capture'
     | '/create/details'
     | '/create/import'
     | '/create/processing'
     | '/create/success'
+    | '/identify/import'
+    | '/identify/scan'
     | '/create/'
+    | '/identify/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -108,22 +147,30 @@ export interface FileRouteTypes {
     | '/create/import'
     | '/create/processing'
     | '/create/success'
+    | '/identify/import'
+    | '/identify/scan'
     | '/create'
+    | '/identify'
   id:
     | '__root__'
     | '/'
     | '/create'
+    | '/identify'
     | '/create/capture'
     | '/create/details'
     | '/create/import'
     | '/create/processing'
     | '/create/success'
+    | '/identify/import'
+    | '/identify/scan'
     | '/create/'
+    | '/identify/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreateRoute: typeof CreateRouteWithChildren
+  IdentifyRoute: typeof IdentifyRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -140,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/create'
       fullPath: '/create'
       preLoaderRoute: typeof CreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/identify': {
+      id: '/identify'
+      path: '/identify'
+      fullPath: '/identify'
+      preLoaderRoute: typeof IdentifyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/create/': {
@@ -184,6 +238,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreateSuccessRouteImport
       parentRoute: typeof CreateRoute
     }
+    '/identify/': {
+      id: '/identify/'
+      path: '/'
+      fullPath: '/identify/'
+      preLoaderRoute: typeof IdentifyIndexRouteImport
+      parentRoute: typeof IdentifyRoute
+    }
+    '/identify/import': {
+      id: '/identify/import'
+      path: '/import'
+      fullPath: '/identify/import'
+      preLoaderRoute: typeof IdentifyImportRouteImport
+      parentRoute: typeof IdentifyRoute
+    }
+    '/identify/scan': {
+      id: '/identify/scan'
+      path: '/scan'
+      fullPath: '/identify/scan'
+      preLoaderRoute: typeof IdentifyScanRouteImport
+      parentRoute: typeof IdentifyRoute
+    }
   }
 }
 
@@ -208,9 +283,26 @@ const CreateRouteChildren: CreateRouteChildren = {
 const CreateRouteWithChildren =
   CreateRoute._addFileChildren(CreateRouteChildren)
 
+interface IdentifyRouteChildren {
+  IdentifyImportRoute: typeof IdentifyImportRoute
+  IdentifyScanRoute: typeof IdentifyScanRoute
+  IdentifyIndexRoute: typeof IdentifyIndexRoute
+}
+
+const IdentifyRouteChildren: IdentifyRouteChildren = {
+  IdentifyImportRoute: IdentifyImportRoute,
+  IdentifyScanRoute: IdentifyScanRoute,
+  IdentifyIndexRoute: IdentifyIndexRoute,
+}
+
+const IdentifyRouteWithChildren = IdentifyRoute._addFileChildren(
+  IdentifyRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreateRoute: CreateRouteWithChildren,
+  IdentifyRoute: IdentifyRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
