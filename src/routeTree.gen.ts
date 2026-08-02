@@ -10,33 +10,205 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CreateRouteImport } from './routes/create'
+import { Route as IdentifyRouteImport } from './routes/identify'
+import { Route as VaultRouteImport } from './routes/vault'
+import { Route as CreateIndexRouteImport } from './routes/create.index'
+import { Route as CreateCaptureRouteImport } from './routes/create.capture'
+import { Route as CreateDetailsRouteImport } from './routes/create.details'
+import { Route as CreateImportRouteImport } from './routes/create.import'
+import { Route as CreateProcessingRouteImport } from './routes/create.processing'
+import { Route as CreateSuccessRouteImport } from './routes/create.success'
+import { Route as IdentifyIndexRouteImport } from './routes/identify.index'
+import { Route as IdentifyImportRouteImport } from './routes/identify.import'
+import { Route as IdentifyResultRouteImport } from './routes/identify.result'
+import { Route as IdentifyScanRouteImport } from './routes/identify.scan'
+import { Route as PassportAnimalIdRouteImport } from './routes/passport.$animalId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreateRoute = CreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdentifyRoute = IdentifyRouteImport.update({
+  id: '/identify',
+  path: '/identify',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VaultRoute = VaultRouteImport.update({
+  id: '/vault',
+  path: '/vault',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateIndexRoute = CreateIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CreateRoute,
+} as any)
+const CreateCaptureRoute = CreateCaptureRouteImport.update({
+  id: '/capture',
+  path: '/capture',
+  getParentRoute: () => CreateRoute,
+} as any)
+const CreateDetailsRoute = CreateDetailsRouteImport.update({
+  id: '/details',
+  path: '/details',
+  getParentRoute: () => CreateRoute,
+} as any)
+const CreateImportRoute = CreateImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => CreateRoute,
+} as any)
+const CreateProcessingRoute = CreateProcessingRouteImport.update({
+  id: '/processing',
+  path: '/processing',
+  getParentRoute: () => CreateRoute,
+} as any)
+const CreateSuccessRoute = CreateSuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => CreateRoute,
+} as any)
+const IdentifyIndexRoute = IdentifyIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => IdentifyRoute,
+} as any)
+const IdentifyImportRoute = IdentifyImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => IdentifyRoute,
+} as any)
+const IdentifyResultRoute = IdentifyResultRouteImport.update({
+  id: '/result',
+  path: '/result',
+  getParentRoute: () => IdentifyRoute,
+} as any)
+const IdentifyScanRoute = IdentifyScanRouteImport.update({
+  id: '/scan',
+  path: '/scan',
+  getParentRoute: () => IdentifyRoute,
+} as any)
+const PassportAnimalIdRoute = PassportAnimalIdRouteImport.update({
+  id: '/passport/$animalId',
+  path: '/passport/$animalId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/create': typeof CreateRouteWithChildren
+  '/identify': typeof IdentifyRouteWithChildren
+  '/vault': typeof VaultRoute
+  '/create/capture': typeof CreateCaptureRoute
+  '/create/details': typeof CreateDetailsRoute
+  '/create/import': typeof CreateImportRoute
+  '/create/processing': typeof CreateProcessingRoute
+  '/create/success': typeof CreateSuccessRoute
+  '/identify/import': typeof IdentifyImportRoute
+  '/identify/result': typeof IdentifyResultRoute
+  '/identify/scan': typeof IdentifyScanRoute
+  '/passport/$animalId': typeof PassportAnimalIdRoute
+  '/create/': typeof CreateIndexRoute
+  '/identify/': typeof IdentifyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/vault': typeof VaultRoute
+  '/create/capture': typeof CreateCaptureRoute
+  '/create/details': typeof CreateDetailsRoute
+  '/create/import': typeof CreateImportRoute
+  '/create/processing': typeof CreateProcessingRoute
+  '/create/success': typeof CreateSuccessRoute
+  '/identify/import': typeof IdentifyImportRoute
+  '/identify/result': typeof IdentifyResultRoute
+  '/identify/scan': typeof IdentifyScanRoute
+  '/passport/$animalId': typeof PassportAnimalIdRoute
+  '/create': typeof CreateIndexRoute
+  '/identify': typeof IdentifyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/create': typeof CreateRouteWithChildren
+  '/identify': typeof IdentifyRouteWithChildren
+  '/vault': typeof VaultRoute
+  '/create/capture': typeof CreateCaptureRoute
+  '/create/details': typeof CreateDetailsRoute
+  '/create/import': typeof CreateImportRoute
+  '/create/processing': typeof CreateProcessingRoute
+  '/create/success': typeof CreateSuccessRoute
+  '/identify/import': typeof IdentifyImportRoute
+  '/identify/result': typeof IdentifyResultRoute
+  '/identify/scan': typeof IdentifyScanRoute
+  '/passport/$animalId': typeof PassportAnimalIdRoute
+  '/create/': typeof CreateIndexRoute
+  '/identify/': typeof IdentifyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/create'
+    | '/identify'
+    | '/vault'
+    | '/create/capture'
+    | '/create/details'
+    | '/create/import'
+    | '/create/processing'
+    | '/create/success'
+    | '/identify/import'
+    | '/identify/result'
+    | '/identify/scan'
+    | '/passport/$animalId'
+    | '/create/'
+    | '/identify/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/vault'
+    | '/create/capture'
+    | '/create/details'
+    | '/create/import'
+    | '/create/processing'
+    | '/create/success'
+    | '/identify/import'
+    | '/identify/result'
+    | '/identify/scan'
+    | '/passport/$animalId'
+    | '/create'
+    | '/identify'
+  id:
+    | '__root__'
+    | '/'
+    | '/create'
+    | '/identify'
+    | '/vault'
+    | '/create/capture'
+    | '/create/details'
+    | '/create/import'
+    | '/create/processing'
+    | '/create/success'
+    | '/identify/import'
+    | '/identify/result'
+    | '/identify/scan'
+    | '/passport/$animalId'
+    | '/create/'
+    | '/identify/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CreateRoute: typeof CreateRouteWithChildren
+  IdentifyRoute: typeof IdentifyRouteWithChildren
+  VaultRoute: typeof VaultRoute
+  PassportAnimalIdRoute: typeof PassportAnimalIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +220,153 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/create': {
+      id: '/create'
+      path: '/create'
+      fullPath: '/create'
+      preLoaderRoute: typeof CreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/identify': {
+      id: '/identify'
+      path: '/identify'
+      fullPath: '/identify'
+      preLoaderRoute: typeof IdentifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vault': {
+      id: '/vault'
+      path: '/vault'
+      fullPath: '/vault'
+      preLoaderRoute: typeof VaultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/create/': {
+      id: '/create/'
+      path: '/'
+      fullPath: '/create/'
+      preLoaderRoute: typeof CreateIndexRouteImport
+      parentRoute: typeof CreateRoute
+    }
+    '/create/capture': {
+      id: '/create/capture'
+      path: '/capture'
+      fullPath: '/create/capture'
+      preLoaderRoute: typeof CreateCaptureRouteImport
+      parentRoute: typeof CreateRoute
+    }
+    '/create/details': {
+      id: '/create/details'
+      path: '/details'
+      fullPath: '/create/details'
+      preLoaderRoute: typeof CreateDetailsRouteImport
+      parentRoute: typeof CreateRoute
+    }
+    '/create/import': {
+      id: '/create/import'
+      path: '/import'
+      fullPath: '/create/import'
+      preLoaderRoute: typeof CreateImportRouteImport
+      parentRoute: typeof CreateRoute
+    }
+    '/create/processing': {
+      id: '/create/processing'
+      path: '/processing'
+      fullPath: '/create/processing'
+      preLoaderRoute: typeof CreateProcessingRouteImport
+      parentRoute: typeof CreateRoute
+    }
+    '/create/success': {
+      id: '/create/success'
+      path: '/success'
+      fullPath: '/create/success'
+      preLoaderRoute: typeof CreateSuccessRouteImport
+      parentRoute: typeof CreateRoute
+    }
+    '/identify/': {
+      id: '/identify/'
+      path: '/'
+      fullPath: '/identify/'
+      preLoaderRoute: typeof IdentifyIndexRouteImport
+      parentRoute: typeof IdentifyRoute
+    }
+    '/identify/import': {
+      id: '/identify/import'
+      path: '/import'
+      fullPath: '/identify/import'
+      preLoaderRoute: typeof IdentifyImportRouteImport
+      parentRoute: typeof IdentifyRoute
+    }
+    '/identify/result': {
+      id: '/identify/result'
+      path: '/result'
+      fullPath: '/identify/result'
+      preLoaderRoute: typeof IdentifyResultRouteImport
+      parentRoute: typeof IdentifyRoute
+    }
+    '/identify/scan': {
+      id: '/identify/scan'
+      path: '/scan'
+      fullPath: '/identify/scan'
+      preLoaderRoute: typeof IdentifyScanRouteImport
+      parentRoute: typeof IdentifyRoute
+    }
+    '/passport/$animalId': {
+      id: '/passport/$animalId'
+      path: '/passport/$animalId'
+      fullPath: '/passport/$animalId'
+      preLoaderRoute: typeof PassportAnimalIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface CreateRouteChildren {
+  CreateCaptureRoute: typeof CreateCaptureRoute
+  CreateDetailsRoute: typeof CreateDetailsRoute
+  CreateImportRoute: typeof CreateImportRoute
+  CreateProcessingRoute: typeof CreateProcessingRoute
+  CreateSuccessRoute: typeof CreateSuccessRoute
+  CreateIndexRoute: typeof CreateIndexRoute
+}
+
+const CreateRouteChildren: CreateRouteChildren = {
+  CreateCaptureRoute: CreateCaptureRoute,
+  CreateDetailsRoute: CreateDetailsRoute,
+  CreateImportRoute: CreateImportRoute,
+  CreateProcessingRoute: CreateProcessingRoute,
+  CreateSuccessRoute: CreateSuccessRoute,
+  CreateIndexRoute: CreateIndexRoute,
+}
+
+const CreateRouteWithChildren =
+  CreateRoute._addFileChildren(CreateRouteChildren)
+
+interface IdentifyRouteChildren {
+  IdentifyImportRoute: typeof IdentifyImportRoute
+  IdentifyResultRoute: typeof IdentifyResultRoute
+  IdentifyScanRoute: typeof IdentifyScanRoute
+  IdentifyIndexRoute: typeof IdentifyIndexRoute
+}
+
+const IdentifyRouteChildren: IdentifyRouteChildren = {
+  IdentifyImportRoute: IdentifyImportRoute,
+  IdentifyResultRoute: IdentifyResultRoute,
+  IdentifyScanRoute: IdentifyScanRoute,
+  IdentifyIndexRoute: IdentifyIndexRoute,
+}
+
+const IdentifyRouteWithChildren = IdentifyRoute._addFileChildren(
+  IdentifyRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CreateRoute: CreateRouteWithChildren,
+  IdentifyRoute: IdentifyRouteWithChildren,
+  VaultRoute: VaultRoute,
+  PassportAnimalIdRoute: PassportAnimalIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
