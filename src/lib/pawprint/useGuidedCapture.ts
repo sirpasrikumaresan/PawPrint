@@ -31,6 +31,8 @@ const GUIDANCE = [
   ["Perfect", "Alignment and quality confirmed"],
 ];
 
+const pick = <T,>(arr: T[], i: number): T => arr[((i % arr.length) + arr.length) % arr.length] as T;
+
 const REJECTIONS = [
   ["Too blurry", "Motion detected — recapturing"],
   ["Dog not detected", "Repositioning guide — recapturing"],
@@ -50,7 +52,7 @@ export function useGuidedCapture(
 ) {
   const [state, setState] = useState<GuidedCaptureState>({
     stageIndex: 0,
-    stage: stages[0],
+    stage: stages[0] as CaptureStage,
     shotsInStage: 0,
     phase: "booting",
     message: "Initializing camera",
@@ -91,7 +93,7 @@ export function useGuidedCapture(
       await wait(900);
 
       for (let s = 0; s < stages.length; s++) {
-        const stage = stages[s];
+        const stage = stages[s] as CaptureStage;
         push({
           stageIndex: s,
           stage,
@@ -107,8 +109,8 @@ export function useGuidedCapture(
         let taken = 0;
         let attempt = 0;
         while (taken < stage.shots) {
-          const g = GUIDANCE[Math.min(attempt, 1) === 0 && taken === 0 ? 1 : (taken + attempt) % 3];
-          push({ phase: "guiding", message: g[0], detail: g[1], lock: 34 + taken * 6 });
+          const g = pick(GUIDANCE, taken === 0 && attempt === 0 ? 1 : taken + attempt);
+          push({ phase: "guiding", message: g[0] as string, detail: g[1] as string, lock: 34 + taken * 6 });
           await wait(620);
           if (cancelled) return;
 
@@ -122,8 +124,8 @@ export function useGuidedCapture(
 
           const reject = s === 1 && taken === 1 && attempt === 0;
           if (reject) {
-            const r = REJECTIONS[(s + taken) % REJECTIONS.length];
-            push({ phase: "rejected", message: r[0], detail: r[1], lock: 20 });
+            const r = pick(REJECTIONS, s + taken);
+            push({ phase: "rejected", message: r[0] as string, detail: r[1] as string, lock: 20 });
             await wait(1000);
             attempt++;
             continue;
