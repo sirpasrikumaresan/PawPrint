@@ -23,6 +23,7 @@ import { Route as IdentifyIndexRouteImport } from './routes/identify.index'
 import { Route as IdentifyImportRouteImport } from './routes/identify.import'
 import { Route as IdentifyResultRouteImport } from './routes/identify.result'
 import { Route as IdentifyScanRouteImport } from './routes/identify.scan'
+import { Route as PassportAnimalIdRouteImport } from './routes/passport.$animalId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,6 +95,11 @@ const IdentifyScanRoute = IdentifyScanRouteImport.update({
   path: '/scan',
   getParentRoute: () => IdentifyRoute,
 } as any)
+const PassportAnimalIdRoute = PassportAnimalIdRouteImport.update({
+  id: '/passport/$animalId',
+  path: '/passport/$animalId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/identify/import': typeof IdentifyImportRoute
   '/identify/result': typeof IdentifyResultRoute
   '/identify/scan': typeof IdentifyScanRoute
+  '/passport/$animalId': typeof PassportAnimalIdRoute
   '/create/': typeof CreateIndexRoute
   '/identify/': typeof IdentifyIndexRoute
 }
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/identify/import': typeof IdentifyImportRoute
   '/identify/result': typeof IdentifyResultRoute
   '/identify/scan': typeof IdentifyScanRoute
+  '/passport/$animalId': typeof PassportAnimalIdRoute
   '/create': typeof CreateIndexRoute
   '/identify': typeof IdentifyIndexRoute
 }
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/identify/import': typeof IdentifyImportRoute
   '/identify/result': typeof IdentifyResultRoute
   '/identify/scan': typeof IdentifyScanRoute
+  '/passport/$animalId': typeof PassportAnimalIdRoute
   '/create/': typeof CreateIndexRoute
   '/identify/': typeof IdentifyIndexRoute
 }
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/identify/import'
     | '/identify/result'
     | '/identify/scan'
+    | '/passport/$animalId'
     | '/create/'
     | '/identify/'
   fileRoutesByTo: FileRoutesByTo
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/identify/import'
     | '/identify/result'
     | '/identify/scan'
+    | '/passport/$animalId'
     | '/create'
     | '/identify'
   id:
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/identify/import'
     | '/identify/result'
     | '/identify/scan'
+    | '/passport/$animalId'
     | '/create/'
     | '/identify/'
   fileRoutesById: FileRoutesById
@@ -196,6 +208,7 @@ export interface RootRouteChildren {
   CreateRoute: typeof CreateRouteWithChildren
   IdentifyRoute: typeof IdentifyRouteWithChildren
   VaultRoute: typeof VaultRoute
+  PassportAnimalIdRoute: typeof PassportAnimalIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -298,6 +311,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdentifyScanRouteImport
       parentRoute: typeof IdentifyRoute
     }
+    '/passport/$animalId': {
+      id: '/passport/$animalId'
+      path: '/passport/$animalId'
+      fullPath: '/passport/$animalId'
+      preLoaderRoute: typeof PassportAnimalIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -345,6 +365,7 @@ const rootRouteChildren: RootRouteChildren = {
   CreateRoute: CreateRouteWithChildren,
   IdentifyRoute: IdentifyRouteWithChildren,
   VaultRoute: VaultRoute,
+  PassportAnimalIdRoute: PassportAnimalIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
