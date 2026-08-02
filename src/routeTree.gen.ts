@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CreateRouteImport } from './routes/create'
 import { Route as IdentifyRouteImport } from './routes/identify'
+import { Route as VaultRouteImport } from './routes/vault'
 import { Route as CreateIndexRouteImport } from './routes/create.index'
 import { Route as CreateCaptureRouteImport } from './routes/create.capture'
 import { Route as CreateDetailsRouteImport } from './routes/create.details'
@@ -20,6 +21,7 @@ import { Route as CreateProcessingRouteImport } from './routes/create.processing
 import { Route as CreateSuccessRouteImport } from './routes/create.success'
 import { Route as IdentifyIndexRouteImport } from './routes/identify.index'
 import { Route as IdentifyImportRouteImport } from './routes/identify.import'
+import { Route as IdentifyResultRouteImport } from './routes/identify.result'
 import { Route as IdentifyScanRouteImport } from './routes/identify.scan'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +37,11 @@ const CreateRoute = CreateRouteImport.update({
 const IdentifyRoute = IdentifyRouteImport.update({
   id: '/identify',
   path: '/identify',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VaultRoute = VaultRouteImport.update({
+  id: '/vault',
+  path: '/vault',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreateIndexRoute = CreateIndexRouteImport.update({
@@ -77,6 +84,11 @@ const IdentifyImportRoute = IdentifyImportRouteImport.update({
   path: '/import',
   getParentRoute: () => IdentifyRoute,
 } as any)
+const IdentifyResultRoute = IdentifyResultRouteImport.update({
+  id: '/result',
+  path: '/result',
+  getParentRoute: () => IdentifyRoute,
+} as any)
 const IdentifyScanRoute = IdentifyScanRouteImport.update({
   id: '/scan',
   path: '/scan',
@@ -87,24 +99,28 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create': typeof CreateRouteWithChildren
   '/identify': typeof IdentifyRouteWithChildren
+  '/vault': typeof VaultRoute
   '/create/capture': typeof CreateCaptureRoute
   '/create/details': typeof CreateDetailsRoute
   '/create/import': typeof CreateImportRoute
   '/create/processing': typeof CreateProcessingRoute
   '/create/success': typeof CreateSuccessRoute
   '/identify/import': typeof IdentifyImportRoute
+  '/identify/result': typeof IdentifyResultRoute
   '/identify/scan': typeof IdentifyScanRoute
   '/create/': typeof CreateIndexRoute
   '/identify/': typeof IdentifyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/vault': typeof VaultRoute
   '/create/capture': typeof CreateCaptureRoute
   '/create/details': typeof CreateDetailsRoute
   '/create/import': typeof CreateImportRoute
   '/create/processing': typeof CreateProcessingRoute
   '/create/success': typeof CreateSuccessRoute
   '/identify/import': typeof IdentifyImportRoute
+  '/identify/result': typeof IdentifyResultRoute
   '/identify/scan': typeof IdentifyScanRoute
   '/create': typeof CreateIndexRoute
   '/identify': typeof IdentifyIndexRoute
@@ -114,12 +130,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/create': typeof CreateRouteWithChildren
   '/identify': typeof IdentifyRouteWithChildren
+  '/vault': typeof VaultRoute
   '/create/capture': typeof CreateCaptureRoute
   '/create/details': typeof CreateDetailsRoute
   '/create/import': typeof CreateImportRoute
   '/create/processing': typeof CreateProcessingRoute
   '/create/success': typeof CreateSuccessRoute
   '/identify/import': typeof IdentifyImportRoute
+  '/identify/result': typeof IdentifyResultRoute
   '/identify/scan': typeof IdentifyScanRoute
   '/create/': typeof CreateIndexRoute
   '/identify/': typeof IdentifyIndexRoute
@@ -130,24 +148,28 @@ export interface FileRouteTypes {
     | '/'
     | '/create'
     | '/identify'
+    | '/vault'
     | '/create/capture'
     | '/create/details'
     | '/create/import'
     | '/create/processing'
     | '/create/success'
     | '/identify/import'
+    | '/identify/result'
     | '/identify/scan'
     | '/create/'
     | '/identify/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/vault'
     | '/create/capture'
     | '/create/details'
     | '/create/import'
     | '/create/processing'
     | '/create/success'
     | '/identify/import'
+    | '/identify/result'
     | '/identify/scan'
     | '/create'
     | '/identify'
@@ -156,12 +178,14 @@ export interface FileRouteTypes {
     | '/'
     | '/create'
     | '/identify'
+    | '/vault'
     | '/create/capture'
     | '/create/details'
     | '/create/import'
     | '/create/processing'
     | '/create/success'
     | '/identify/import'
+    | '/identify/result'
     | '/identify/scan'
     | '/create/'
     | '/identify/'
@@ -171,6 +195,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreateRoute: typeof CreateRouteWithChildren
   IdentifyRoute: typeof IdentifyRouteWithChildren
+  VaultRoute: typeof VaultRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -194,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/identify'
       fullPath: '/identify'
       preLoaderRoute: typeof IdentifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vault': {
+      id: '/vault'
+      path: '/vault'
+      fullPath: '/vault'
+      preLoaderRoute: typeof VaultRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/create/': {
@@ -252,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdentifyImportRouteImport
       parentRoute: typeof IdentifyRoute
     }
+    '/identify/result': {
+      id: '/identify/result'
+      path: '/result'
+      fullPath: '/identify/result'
+      preLoaderRoute: typeof IdentifyResultRouteImport
+      parentRoute: typeof IdentifyRoute
+    }
     '/identify/scan': {
       id: '/identify/scan'
       path: '/scan'
@@ -285,12 +324,14 @@ const CreateRouteWithChildren =
 
 interface IdentifyRouteChildren {
   IdentifyImportRoute: typeof IdentifyImportRoute
+  IdentifyResultRoute: typeof IdentifyResultRoute
   IdentifyScanRoute: typeof IdentifyScanRoute
   IdentifyIndexRoute: typeof IdentifyIndexRoute
 }
 
 const IdentifyRouteChildren: IdentifyRouteChildren = {
   IdentifyImportRoute: IdentifyImportRoute,
+  IdentifyResultRoute: IdentifyResultRoute,
   IdentifyScanRoute: IdentifyScanRoute,
   IdentifyIndexRoute: IdentifyIndexRoute,
 }
@@ -303,6 +344,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreateRoute: CreateRouteWithChildren,
   IdentifyRoute: IdentifyRouteWithChildren,
+  VaultRoute: VaultRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
