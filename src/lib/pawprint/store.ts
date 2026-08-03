@@ -189,7 +189,7 @@ export async function addPassport(passport: Passport) {
     vaccinations: passport.vaccinations,
     medical: passport.medical,
     insurance: passport.insurance,
-  } as never);
+  });
 
   void refreshRegistry();
 }
@@ -199,7 +199,7 @@ export function recordIdentification(animalId: string, confidence: number) {
   emit();
   void supabase
     .from("passports")
-    .update({ last_confidence: confidence } as never)
+    .update({ last_confidence: confidence })
     .eq("animal_id", animalId);
 }
 
