@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 import type { CapturedShot, Passport, PassportDetails } from "./types";
 
 /**
@@ -185,10 +186,10 @@ export async function addPassport(passport: Passport) {
     quality: passport.quality,
     last_confidence: passport.lastConfidence,
     photo: uploaded.get(passport.photo) ?? passport.photo,
-    shots: passport.shots.map((s) => ({ ...s, image: uploaded.get(s.image) ?? s.image })),
-    vaccinations: passport.vaccinations,
-    medical: passport.medical,
-    insurance: passport.insurance,
+    shots: passport.shots.map((s) => ({ ...s, image: uploaded.get(s.image) ?? s.image })) as unknown as Json,
+    vaccinations: passport.vaccinations as unknown as Json,
+    medical: passport.medical as unknown as Json,
+    insurance: passport.insurance as unknown as Json,
   });
 
   void refreshRegistry();
