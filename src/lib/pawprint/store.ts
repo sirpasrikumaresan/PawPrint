@@ -14,6 +14,7 @@ const SIGNED_URL_TTL = 60 * 60 * 6;
 
 let passports: Passport[] = [];
 let hydrated = false;
+let loaded = false;
 const listeners = new Set<() => void>();
 
 function emit() {
@@ -109,14 +110,21 @@ export async function refreshRegistry() {
     rows.flatMap((r) => [r.photo, ...((Array.isArray(r.shots) ? r.shots : []) as CapturedShot[]).map((s) => s.image)]),
   );
   passports = rows.map((r) => rowToPassport(r, urls));
+  loaded = true;
   emit();
 }
 
 const getSnapshot = () => passports;
+const getLoaded = () => loaded;
+const getLoadedServer = () => false;
 const getServerSnapshot = (): Passport[] => [];
 
 export function usePassports(): Passport[] {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+}
+
+export function useRegistryLoaded(): boolean {
+  return useSyncExternalStore(subscribe, getLoaded, getLoadedServer);
 }
 
 export function getPassport(animalId: string): Passport | undefined {
@@ -182,6 +190,8 @@ export async function addPassport(passport: Passport) {
     medical: passport.medical,
     insurance: passport.insurance,
   } as never);
+
+  void refreshRegistry();
 }
 
 export function recordIdentification(animalId: string, confidence: number) {

@@ -15,7 +15,7 @@ import { VerifiedBadge } from "@/components/pawprint/Badges";
 import { EmptyState } from "@/components/pawprint/EmptyState";
 import { InfoGrid, SectionTitle } from "@/components/pawprint/Info";
 import { STAGE_MAP } from "@/lib/pawprint/stages";
-import { getPassport, hydrateRegistry, usePassports } from "@/lib/pawprint/store";
+import { getPassport, hydrateRegistry, useRegistryLoaded, usePassports } from "@/lib/pawprint/store";
 
 export const Route = createFileRoute("/passport/$animalId")({
   head: ({ params }) => ({
@@ -44,12 +44,15 @@ export const Route = createFileRoute("/passport/$animalId")({
 function PassportPage() {
   const { animalId } = Route.useParams();
   usePassports();
-  const [ready, setReady] = useState(false);
+  const registryLoaded = useRegistryLoaded();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     hydrateRegistry();
-    setReady(true);
+    setMounted(true);
   }, []);
+
+  const ready = mounted && registryLoaded;
 
   const p = getPassport(animalId);
   if (!p) {

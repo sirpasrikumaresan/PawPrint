@@ -4,7 +4,7 @@ import { PawPrint, Search, SearchX } from "lucide-react";
 import { Screen } from "@/components/pawprint/Screen";
 import { PassportCard } from "@/components/pawprint/PassportCard";
 import { EmptyState } from "@/components/pawprint/EmptyState";
-import { usePassports } from "@/lib/pawprint/store";
+import { useRegistryLoaded, usePassports } from "@/lib/pawprint/store";
 
 export const Route = createFileRoute("/vault")({
   head: () => ({
@@ -27,6 +27,7 @@ export const Route = createFileRoute("/vault")({
 
 function VaultPage() {
   const passports = usePassports();
+  const loaded = useRegistryLoaded();
   const [query, setQuery] = useState("");
 
   const results = useMemo(() => {
@@ -60,7 +61,7 @@ function VaultPage() {
       </div>
 
       <div className="mt-2 space-y-2.5">
-        {passports.length === 0 ? (
+        {!loaded ? null : passports.length === 0 ? (
           <EmptyState
             icon={PawPrint}
             title="No animals registered yet."
