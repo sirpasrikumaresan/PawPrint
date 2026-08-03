@@ -118,7 +118,8 @@ export async function refreshRegistry() {
 const getSnapshot = () => passports;
 const getLoaded = () => loaded;
 const getLoadedServer = () => false;
-const getServerSnapshot = (): Passport[] => [];
+const EMPTY: Passport[] = [];
+const getServerSnapshot = (): Passport[] => EMPTY;
 
 export function usePassports(): Passport[] {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
