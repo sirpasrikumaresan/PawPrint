@@ -37,8 +37,8 @@ type Row = {
   age: string;
   breed: string;
   color: string;
-  owner_name: string;
-  phone: string;
+  owner_name?: string | null;
+  phone?: string | null;
   location: string;
   notes: string;
   registered_at: string;
@@ -76,8 +76,8 @@ function rowToPassport(row: Row, urls: Map<string, string>): Passport {
     age: row.age as Passport["age"],
     breed: row.breed,
     color: row.color,
-    ownerName: row.owner_name,
-    phone: row.phone,
+    ownerName: row.owner_name ?? "",
+    phone: row.phone ?? "",
     location: row.location,
     notes: row.notes,
     registeredAt: row.registered_at,
@@ -100,8 +100,8 @@ export function hydrateRegistry() {
 }
 
 export async function refreshRegistry() {
-  const { data, error } = await supabase
-    .from("passports")
+  const { data, error } = await (supabase as any)
+    .from("passports_public")
     .select("*")
     .order("created_at", { ascending: false });
   if (error || !data) return;
