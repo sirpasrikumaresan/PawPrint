@@ -88,10 +88,78 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      passports_public: {
+        Row: {
+          age: string | null
+          animal_id: string | null
+          breed: string | null
+          color: string | null
+          created_at: string | null
+          gender: string | null
+          insurance: Json | null
+          last_confidence: number | null
+          location: string | null
+          medical: Json | null
+          name: string | null
+          notes: string | null
+          photo: string | null
+          quality: number | null
+          registered_at: string | null
+          shots: Json | null
+          species: string | null
+          updated_at: string | null
+          vaccinations: Json | null
+        }
+        Insert: {
+          age?: string | null
+          animal_id?: string | null
+          breed?: string | null
+          color?: string | null
+          created_at?: string | null
+          gender?: string | null
+          insurance?: Json | null
+          last_confidence?: number | null
+          location?: string | null
+          medical?: Json | null
+          name?: string | null
+          notes?: string | null
+          photo?: string | null
+          quality?: number | null
+          registered_at?: string | null
+          shots?: Json | null
+          species?: string | null
+          updated_at?: string | null
+          vaccinations?: Json | null
+        }
+        Update: {
+          age?: string | null
+          animal_id?: string | null
+          breed?: string | null
+          color?: string | null
+          created_at?: string | null
+          gender?: string | null
+          insurance?: Json | null
+          last_confidence?: number | null
+          location?: string | null
+          medical?: Json | null
+          name?: string | null
+          notes?: string | null
+          photo?: string | null
+          quality?: number | null
+          registered_at?: string | null
+          shots?: Json | null
+          species?: string | null
+          updated_at?: string | null
+          vaccinations?: Json | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      record_identification: {
+        Args: { p_animal_id: string; p_confidence: number }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
