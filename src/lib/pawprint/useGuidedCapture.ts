@@ -64,6 +64,8 @@ export function useGuidedCapture(
   const skipRef = useRef<() => void>(() => {});
   const eventRef = useRef(onEvent);
   eventRef.current = onEvent;
+  const captureRef = useRef(captureFrame);
+  captureRef.current = captureFrame;
 
   useEffect(() => {
     let cancelled = false;
