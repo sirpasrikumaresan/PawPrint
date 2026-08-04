@@ -56,12 +56,12 @@ function GuidedCapture() {
       ) : (
         <CaptureSession
           stages={CAPTURE_STAGES}
-          image={photo}
           label="Identity Capture"
           onComplete={(shots) => {
             const quality = Math.round(
               shots.reduce((a, s) => a + s.quality, 0) / Math.max(1, shots.length),
             );
+            const photo = shots[0]?.image ?? "";
             updateDraft({ method: "guided", shots, photo, quality });
             navigate({ to: "/create/details" });
           }}

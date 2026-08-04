@@ -23,15 +23,7 @@ export function CaptureSession({
 
   return (
     <div className="flex min-h-[calc(100vh-3.5rem)] flex-col pb-8 pt-4">
-      <div className="relative overflow-hidden rounded-[2rem] bg-black">
-        <video
-          ref={camera.attach}
-          playsInline
-          muted
-          autoPlay
-          className="pointer-events-none absolute h-px w-px opacity-0"
-        />
-      </div>
+
       {failed ? (
         <div className="flex flex-1 flex-col items-center justify-center text-center">
           <VideoOff className="h-10 w-10 text-white/60" strokeWidth={1.5} />
