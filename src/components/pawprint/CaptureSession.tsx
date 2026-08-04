@@ -1,27 +1,69 @@
-import { Check, CircleAlert, Sparkles } from "lucide-react";
+import { Check, CircleAlert, Sparkles, VideoOff } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { CaptureOverlay } from "./CaptureOverlay";
 import { ProgressHeader } from "./Progress";
 import { Button } from "./Button";
 import { useGuidedCapture } from "@/lib/pawprint/useGuidedCapture";
+import { useCamera } from "@/lib/pawprint/useCamera";
 import { useHaptics } from "@/lib/pawprint/haptics";
 import type { CaptureStage, CapturedShot } from "@/lib/pawprint/types";
 import { cn } from "@/lib/utils";
 
 export function CaptureSession({
   stages,
-  image,
   label,
   onComplete,
 }: {
   stages: CaptureStage[];
-  image: string;
   label: string;
   onComplete: (shots: CapturedShot[]) => void;
 }) {
+  const camera = useCamera(true);
+  const failed = camera.status === "denied" || camera.status === "error" || camera.status === "unsupported";
+
+  return (
+    <div className="flex min-h-[calc(100vh-3.5rem)] flex-col pb-8 pt-4">
+
+      {failed ? (
+        <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <VideoOff className="h-10 w-10 text-white/60" strokeWidth={1.5} />
+          <h2 className="mt-5 text-[20px] font-bold tracking-tight text-white">Camera unavailable</h2>
+          <p className="mt-2 max-w-[32ch] text-[14px] leading-relaxed text-white/60">{camera.message}</p>
+        </div>
+      ) : camera.status !== "ready" ? (
+        <div className="flex flex-1 flex-col items-center justify-center text-center">
+          <span className="animate-breathe h-24 w-24 rounded-full border-2 border-dashed border-white/25" />
+          <p className="mt-6 text-[14px] text-white/60">Requesting camera access…</p>
+        </div>
+      ) : (
+        <LiveSession
+          stages={stages}
+          label={label}
+          onComplete={onComplete}
+          attach={camera.attach}
+          captureFrame={camera.captureFrame}
+        />
+      )}
+    </div>
+  );
+}
+
+function LiveSession({
+  stages,
+  label,
+  onComplete,
+  attach,
+  captureFrame,
+}: {
+  stages: CaptureStage[];
+  label: string;
+  onComplete: (shots: CapturedShot[]) => void;
+  attach: (el: HTMLVideoElement | null) => void;
+  captureFrame: () => string;
+}) {
   const haptic = useHaptics();
   const doneRef = useRef(false);
-  const state = useGuidedCapture(stages, image, (shots) => {
+  const state = useGuidedCapture(stages, captureFrame, (shots) => {
     if (doneRef.current) return;
     doneRef.current = true;
     onComplete(shots);
@@ -40,7 +82,7 @@ export function CaptureSession({
   const locked = state.phase === "locking" || state.phase === "capturing";
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] flex-col pb-8 pt-4">
+    <>
       <ProgressHeader
         step={state.stageIndex + 1}
         total={stages.length}
@@ -51,15 +93,16 @@ export function CaptureSession({
 
       <div className="relative mt-5 overflow-hidden rounded-[2rem] bg-black shadow-[var(--shadow-lift)]">
         <div className="relative aspect-[3/4] w-full">
-          <img
-            src={image}
-            alt="Live camera preview"
+          <video
+            ref={attach}
+            playsInline
+            muted
+            autoPlay
+            aria-label="Live camera preview"
             className={cn(
-              "h-full w-full scale-[1.18] object-cover transition-all duration-700 ease-out",
-              locked ? "scale-[1.05] blur-0" : "blur-[1.5px]",
-              state.phase === "booting" && "opacity-40 blur-md",
+              "h-full w-full object-cover transition-all duration-700 ease-out",
+              locked ? "blur-0" : "blur-[0.5px]",
             )}
-            style={{ objectPosition: state.stage.overlay === "oval" ? "center 30%" : "center 45%" }}
           />
           <CaptureOverlay
             kind={state.stage.overlay}
@@ -86,9 +129,7 @@ export function CaptureSession({
           <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-black/40 px-3 py-1.5 backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5 text-white/80" />
             <span className="text-[12px] font-semibold text-white">{state.stage.title}</span>
-            {state.stage.optional && (
-              <span className="text-[11px] text-white/60">· optional</span>
-            )}
+            {state.stage.optional && <span className="text-[11px] text-white/60">· optional</span>}
           </div>
 
           {/* shot dots */}
@@ -176,6 +217,6 @@ export function CaptureSession({
           </Button>
         )}
       </div>
-    </div>
+    </>
   );
 }

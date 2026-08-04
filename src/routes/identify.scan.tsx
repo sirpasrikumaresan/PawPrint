@@ -52,7 +52,6 @@ function GuidedScan() {
       ) : (
         <CaptureSession
           stages={SCAN_STAGES}
-          image={target?.photo ?? ""}
           label="Identity Scan"
           onComplete={() => {
             setIdentifySession({

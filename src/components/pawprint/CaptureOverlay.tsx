@@ -6,23 +6,15 @@ function shapeFor(kind: OverlayKind) {
     case "oval":
       return <ellipse cx="150" cy="205" rx="82" ry="112" />;
     case "left":
-      return (
-        <path d="M78 96 C78 72 96 62 122 62 L188 62 C214 62 232 78 232 106 L232 300 C232 330 210 348 178 348 L118 348 C92 348 78 330 78 302 Z" />
-      );
     case "right":
-      return (
-        <path
-          d="M78 96 C78 72 96 62 122 62 L188 62 C214 62 232 78 232 106 L232 300 C232 330 210 348 178 348 L118 348 C92 348 78 330 78 302 Z"
-          transform="translate(300,0) scale(-1,1)"
-        />
-      );
+      return <rect x="46" y="90" width="208" height="240" rx="28" />;
     case "front":
-      return <rect x="38" y="112" width="224" height="206" rx="56" />;
+      return <rect x="38" y="104" width="224" height="212" rx="28" />;
     case "back":
-      return <rect x="42" y="100" width="216" height="232" rx="60" />;
+      return <rect x="42" y="96" width="216" height="228" rx="28" />;
     case "square":
     default:
-      return <rect x="72" y="136" width="156" height="156" rx="30" />;
+      return <rect x="62" y="128" width="176" height="164" rx="24" />;
   }
 }
 
