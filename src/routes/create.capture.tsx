@@ -5,8 +5,7 @@ import { Button } from "@/components/pawprint/Button";
 import { CaptureSession } from "@/components/pawprint/CaptureSession";
 import { Screen } from "@/components/pawprint/Screen";
 import { CAPTURE_STAGES } from "@/lib/pawprint/stages";
-import { MOCK_PHOTOS } from "@/lib/pawprint/mock";
-import { updateDraft, usePassports } from "@/lib/pawprint/store";
+import { updateDraft } from "@/lib/pawprint/store";
 
 export const Route = createFileRoute("/create/capture")({
   component: GuidedCapture,
@@ -14,9 +13,8 @@ export const Route = createFileRoute("/create/capture")({
 
 function GuidedCapture() {
   const navigate = useNavigate();
-  const passports = usePassports();
   const [started, setStarted] = useState(false);
-  const photo = MOCK_PHOTOS[passports.length % MOCK_PHOTOS.length] as string;
+
 
   return (
     <Screen title="AI Guided Capture" back="/create" bare className="pt-0">
