@@ -199,10 +199,10 @@ export async function addPassport(passport: Passport) {
 export function recordIdentification(animalId: string, confidence: number) {
   passports = passports.map((p) => (p.animalId === animalId ? { ...p, lastConfidence: confidence } : p));
   emit();
-  void supabase
-    .from("passports")
-    .update({ last_confidence: confidence })
-    .eq("animal_id", animalId);
+  void (supabase as unknown as { rpc: (fn: string, args: Record<string, unknown>) => Promise<unknown> }).rpc(
+    "record_identification",
+    { p_animal_id: animalId, p_confidence: confidence },
+  );
 }
 
 /* ---------------- Draft (session-scoped enrolment flow) ---------------- */
