@@ -46,7 +46,7 @@ const REJECTIONS = [
  */
 export function useGuidedCapture(
   stages: CaptureStage[],
-  image: string,
+  captureFrame: () => string,
   onComplete: (shots: CapturedShot[]) => void,
   onEvent?: (phase: CapturePhase) => void,
 ) {
@@ -122,7 +122,8 @@ export function useGuidedCapture(
           await wait(480);
           if (cancelled) return;
 
-          const reject = s === 1 && taken === 1 && attempt === 0;
+          const frame = captureRef.current();
+          const reject = !frame;
           if (reject) {
             const r = pick(REJECTIONS, s + taken);
             push({ phase: "rejected", message: r[0] as string, detail: r[1] as string, lock: 20 });
@@ -135,7 +136,7 @@ export function useGuidedCapture(
           collected.push({
             stage: stage.id,
             quality,
-            image,
+            image: frame,
             crop: STAGE_CROP[stage.id],
           });
           taken++;
