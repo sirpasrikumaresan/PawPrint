@@ -20,8 +20,7 @@ PawPrint creates, verifies and retrieves trusted digital identities for animals 
   - [4. Animal Passport](#4-animal-passport)
 - [UX Details](#ux-details)
 - [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Built with Lovable](#built-with-lovable)
+
 ---
  
 ## Overview
@@ -209,23 +208,8 @@ Designed to look like an official, government-issued digital ID.
 - Accuracy is unmeasured. Next step: build a test set and track false accepts and false rejects separately to set the confidence threshold.
 - Biometric data raises privacy and misidentification risks that need a proper review before real use.
 - Longer-term idea: extend the same approach from pets to livestock and, eventually, wildlife.
-## Getting Started
- 
-You need Node.js and npm ([install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)).
- 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+
 ```
  
-## Built with Lovable
- 
-This project was built with [Lovable](https://lovable.dev).
- 
-- **Ship faster:** describe what you want to build and Lovable handles the code.
-- **Stay in sync:** every change made in Lovable is committed to this repository.
-- **Full ownership:** the code is yours. Push to `main` on GitHub and changes sync back into Lovable.
-👉 [Continue developing in the Lovable editor](https://lovable.dev/projects/121fff9a-1831-474e-ae86-e395853f294a)
+
  
